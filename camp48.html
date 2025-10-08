@@ -1,0 +1,620 @@
+Here is the existing canvas app code I want to edit:
+
+```html type=html
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAMP48: Велоприключение на Нарочи - Мощный IRL-Перезагруз</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4A49C9'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-gentle': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 1s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(93, 92, 222, 0.8), rgba(74, 73, 201, 0.9)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="bikes" patternUnits="userSpaceOnUse" width="200" height="200"><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><circle cx="150" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><path d="M50 50 L150 50 L120 20 M80 50 L120 20 L120 50" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/></pattern></defs><rect width="100%" height="100%" fill="url(%23bikes)"/></svg>') center/cover;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #5D5CDE, #8B7CF8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .floating-element {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .timer-glow {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+
+    <!-- Floating Urgency Badge -->
+    <div id="floating-badge" class="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded-full shadow-lg animate-pulse-slow">
+        <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 bg-white rounded-full animate-ping"></span>
+            <span class="text-sm font-bold">ОСТАЛОСЬ 1 МЕСТО!</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary-dark/90"></div>
+        <div class="container mx-auto px-4 relative z-10 text-center text-white animate-fade-in">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                МОЩНЫЙ ПЕРЕЗАГРУЗ!<фbr>
+                <span class="gradient-text text-yellow-300">МОЩНЫЙ ПЕРЕЗАГРУЗ</span><br>
+                НА НАРОЧИ
+            </h1>
+            
+            <p class="text-xl md:text-2xl mb-8 max-w-4xl mx-auto opacity-90">
+                48 часов, чтобы преодолеть изоляцию, сформировать глубокие офлайн-связи 
+                и найти Волю для новых достижений
+            </p>
+            
+            <!-- Icons -->
+            <div class="flex justify-center space-x-8 mb-8">
+                <div class="text-center floating-element">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-2 mx-auto">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm">Велосипед</span>
+                </div>
+                <div class="text-center floating-element" style="animation-delay: -1s;">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-2 mx-auto">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L3 8v12h6v-7h6v7h6V8l-9-6z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm">Палатка</span>
+                </div>
+                <div class="text-center floating-element" style="animation-delay: -2s;">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-2 mx-auto">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9c.83 0 1.5-.67 1.5-1.5S7.83 8 7 8s-1.5.67-1.5 1.5S6.17 11 7 11zm10 0c.83 0 1.5-.67 1.5-1.5S17.83 8 17 8s-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm-5 4.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm">Костер</span>
+                </div>
+            </div>
+
+        <!-- Таймер обратного отсчёта -->
+<div id="timer" style="font-family: monospace; font-size: 24px;"></div>
+
+<script>
+  // Устанавливаем время отсчёта: 2 дня в миллисекундах
+  const countdownTime = 2 * 24 * 60 * 60 * 1000;
+
+  // Запоминаем момент запуска таймера
+  const startTime = new Date().getTime();
+
+  function updateTimer() {
+    const now = new Date().getTime();
+    const elapsed = now - startTime;
+    const timeLeft = countdownTime - elapsed;
+
+    if (timeLeft <= 0) {
+      document.getElementById('timer').textContent = '00 д 00:00:00';
+      clearInterval(timerInterval);
+      return;
+    }
+
+    // Расчёт дней, часов, минут, секунд
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    // Форматирование с ведущими нулями
+    const formatNumber = num => num < 10 ? '0' + num : num;
+
+    // Вывод
+    document.getElementById('timer').textContent =
+      formatNumber(days) + ' д ' +
+      formatNumber(hours) + ':' +
+      formatNumber(minutes) + ':' +
+      formatNumber(seconds);
+  }
+
+  updateTimer(); // Обновить сразу при загрузке
+  const timerInterval = setInterval(updateTimer, 1000);
+</script>
+
+
+
+
+
+
+            <!-- Primary CTA -->
+            <a href="https://t.me/d1q1da" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl px-8 py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 animate-bounce-gentle">
+                Я ЕДУ! ПОЛУЧИТЬ ПОДРОБНУЮ ПРОГРАММУ В TELEGRAM
+            </a>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+                    ХВАТИТ ЖИТЬ ЗА ЭКРАНОМ!
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+                    ВАШ ОРГАНИЗМ ТРЕБУЕТ ПЕРЕЗАГРУЗКИ, ЕСЛИ ВЫ...
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Problem 1 -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-10 h-10 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                                <path d="M16 6l6-6m0 6L16 0" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Цифровая усталость</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Проводите более 7 часов в день за экранами и чувствуете информационное переутомление
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problem 2 -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-10 h-10 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-1.35.34-2.62.94-3.73l10.79 10.79C14.62 19.66 13.35 20 12 20zM20 12c0 1.35-.34 2.62-.94 3.73L8.27 4.94C9.38 4.34 10.65 4 12 4c4.41 0 8 3.59 8 8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Изоляция</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Ищете настоящих друзей и глубокие офлайн-связи, но сталкиваетесь с социальной тревожностью
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problem 3 -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-10 h-10 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                <path d="M8 15l4-4 4 4" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Деградация</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Выбираете развитие, а не деградацию, и ищете сообщество, где нет алкоголя
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution -->
+            <div class="bg-primary text-white rounded-3xl p-10 text-center">
+                <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl font-bold">🔥</span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-4">РЕШЕНИЕ — CAMP48</h3>
+                <p class="text-xl opacity-90 max-w-3xl mx-auto">
+                    Это приключение для души, где мы обретаем целостное благополучие (ментальное, социальное, физическое) 
+                    и раскрываем свой потенциал через живое общение на природе
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activities Section -->
+    <section class="py-20 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+                    ВАШИ 48 ЧАСОВ НАРОЧАНСКОГО ПЕРЕЗАГРУЗА
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">ПЛАН ДЕЙСТВИЯ</p>
+            </div>
+
+            <!-- Values -->
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-gradient-to-r from-primary to-primary-dark p-8 rounded-2xl text-white text-center">
+                    <div class="text-6xl mb-4">💪</div>
+                    <h3 class="text-2xl font-bold mb-4">ВОЛЯ</h3>
+                    <p class="opacity-90">Через физическую нагрузку</p>
+                </div>
+                <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-8 rounded-2xl text-white text-center">
+                    <div class="text-6xl mb-4">😊</div>
+                    <h3 class="text-2xl font-bold mb-4">СЧАСТЬЕ</h3>
+                    <p class="opacity-90">Через природу и общение</p>
+                </div>
+            </div>
+
+            <!-- Activities -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div class="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-xl">
+                    <div class="text-4xl mb-4 text-center">🚴‍♂️</div>
+                    <h4 class="font-bold mb-2 text-center">Велоприключение</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+                        Прокатимся по живописным тропам Нарочи (маршрут 50 км)
+                    </p>
+                </div>
+                <div class="bg-gradient-to-b from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl">
+                    <div class="text-4xl mb-4 text-center">🏕️</div>
+                    <h4 class="font-bold mb-2 text-center">Погружение в природу</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+                        Двухдневный кемпинг с палатками у воды
+                    </p>
+                </div>
+                <div class="bg-gradient-to-b from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-6 rounded-xl">
+                    <div class="text-4xl mb-4 text-center">🔥</div>
+                    <h4 class="font-bold mb-2 text-center">Живое общение</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+                        Совместное приготовление еды, общение у костра
+                    </p>
+                </div>
+                <div class="bg-gradient-to-b from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-xl">
+                    <div class="text-4xl mb-4 text-center">🗺️</div>
+                    <h4 class="font-bold mb-2 text-center">Экскурсии</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+                        Посещение популярных мест и красот Нарочанского края
+                    </p>
+                </div>
+            </div>
+
+            <!-- Special Block -->
+            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 p-8 rounded-2xl border-l-4 border-teal-500">
+                <div class="flex items-start space-x-4">
+                    <div class="flex space-x-2 text-2xl">
+                        <span>❄️</span>
+                        <span>🧘‍♂️</span>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2 text-teal-800 dark:text-teal-300">Для Своих</h4>
+                        <p class="text-teal-700 dark:text-teal-200">
+                            Особенно приветствуем тех, кто близок к дыхательным практикам, закалке и здоровому образу жизни! 
+                            Здесь вас поймут и поддержат.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map & Logistics Section -->
+    <section class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+                    ГДЕ МЫ ВСТРЕЧАЕМСЯ И КУДА ЕДЕМ?
+                </h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Map -->
+                <div class="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Нарочанский край</h3>
+                    <div class="relative">
+                        <a href="https://yandex.by/maps/-/CLFvARli" target="_blank" class="block bg-gradient-to-br from-blue-100 to-green-100 dark:from-blue-900/30 dark:to-green-900/30 h-80 rounded-xl flex items-center justify-center relative overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            <div class="text-center z-10">
+                                <div class="text-6xl mb-4">🗺️</div>
+                                <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">Интерактивная карта Нарочи</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Природа, чистый воздух и живописные места</p>
+                                <div class="mt-4 bg-primary text-white px-4 py-2 rounded-full text-sm hover:bg-primary-dark transition-colors">
+                                    Открыть карту →
+                                </div>
+                            </div>
+                            <!-- Map markers -->
+                            <div class="absolute top-4 left-8 bg-red-500 w-4 h-4 rounded-full animate-ping"></div>
+                            <div class="absolute bottom-8 right-12 bg-blue-500 w-4 h-4 rounded-full animate-ping" style="animation-delay: -1s;"></div>
+                            <div class="absolute top-1/2 left-1/4 bg-green-500 w-4 h-4 rounded-full animate-ping" style="animation-delay: -2s;"></div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Logistics Info -->
+                <div class="space-y-8">
+                    <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                                <span class="text-2xl">📍</span>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold">Точка Сбора</h4>
+                                <p class="text-gray-600 dark:text-gray-300">Новая Боровая, Минск</p>
+                            </div>
+                        </div>
+                        <div class="bg-red-500 text-white p-4 rounded-lg text-center">
+                            <p class="font-bold">Время: 07:00, 10 ОКТЯБРЯ</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                                <span class="text-2xl">🚗</span>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold">Транспорт</h4>
+                                <p class="text-gray-600 dark:text-gray-300">Логистика поездки</p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded">
+                            <p class="text-sm">
+                                Выезжаю на машине с багажником (всего 2 места для велосипедов, одно свободно). 
+                                Кооперируемся, чтобы ехать большой компанией, или участники добираются своим ходом.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Section -->
+    <section class="py-20 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+                    ИНВЕСТИЦИЯ В ВАШЕ ЦЕЛОСТНОЕ БЛАГОПОЛУЧИЕ
+                </h2>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Principle -->
+                <div class="bg-gradient-to-b from-primary/10 to-primary/20 dark:from-primary/20 dark:to-primary/30 p-8 rounded-2xl">
+                    <div class="text-center mb-6">
+                        <span class="text-5xl">🤝</span>
+                        <h3 class="text-xl font-bold mt-4">Душевный подход</h3>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        Организую это приключение для души, а не ради прибыли. 
+                        Это некоммерческая инициатива для единомышленников.
+                    </p>
+                </div>
+
+                <!-- Financial Terms -->
+                <div class="bg-gradient-to-b from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-8 rounded-2xl">
+                    <div class="text-center mb-6">
+                        <span class="text-5xl">💰</span>
+                        <h3 class="text-xl font-bold mt-4">Финансовые условия</h3>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        Все расходы (бензин, общая еда, аренда мест) честно делим пополам. 
+                        Вы вносите личный вклад (питание, действие, материя).
+                    </p>
+                </div>
+
+                <!-- Transparency -->
+                <div class="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-8 rounded-2xl">
+                    <div class="text-center mb-6">
+                        <span class="text-5xl">✅</span>
+                        <h3 class="text-xl font-bold mt-4">Прозрачность</h3>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-green-500">✓</span>
+                            <span>Организация маршрута</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-green-500">✓</span>
+                            <span>Атмосфера без алкоголя</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-red-500">✗</span>
+                            <span>Личное снаряжение</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equipment List -->
+            <div class="mt-16 bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl">
+                <h3 class="text-2xl font-bold mb-6 text-center">Необходимое снаряжение</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+                        <span class="text-2xl">🚴‍♂️</span>
+                        <span>Велосипед</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+                        <span class="text-2xl">🏕️</span>
+                        <span>Палатка</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+                        <span class="text-2xl">🛏️</span>
+                        <span>Спальный мешок</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+                        <span class="text-2xl">🏃‍♂️</span>
+                        <span>Туристический коврик</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+                        <span class="text-2xl">💊</span>
+                        <span>Минимальная аптечка</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+                        <span class="text-2xl">🔦</span>
+                        <span>Фонарики</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+                        <span class="text-2xl">🍽️</span>
+                        <span>Посуда</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
+                        <span class="text-2xl">🎒</span>
+                        <span>И еще...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-primary to-primary-dark text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-10 left-10 text-6xl animate-pulse">🚴‍♂️</div>
+            <div class="absolute top-32 right-20 text-4xl animate-pulse" style="animation-delay: -1s;">🏕️</div>
+            <div class="absolute bottom-20 left-1/4 text-5xl animate-pulse" style="animation-delay: -2s;">🔥</div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <!-- Testimonial -->
+            <div class="text-center mb-12">
+                <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl max-w-3xl mx-auto mb-8">
+                    <div class="text-6xl mb-4">👥</div>
+                    <blockquote class="text-xl italic mb-4">
+                        "Я был одинок и метался, а теперь у меня есть система, окружение и результат"
+                    </blockquote>
+                    <p class="opacity-90">
+                        Присоединяйтесь к сообществу единомышленников, где каждый найдет поддержку
+                    </p>
+                </div>
+            </div>
+
+            <!-- Final CTA -->
+            <div class="text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    ГОТОВЫ К МОЩНОМУ ПЕРЕЗАРЯДУ?
+                </h2>
+                <p class="text-xl mb-8 opacity-90">
+                    Места ограничены, решение нужно принимать сейчас!
+                </p>
+                
+                <a href="https://t.me/d1q1da" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl px-10 py-5 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 mb-6">
+                    Я БУДУ! ОТМЕТИТЬСЯ И ПОЛУЧИТЬ ПРОГРАММУ
+                </a>
+                
+                <p class="text-sm opacity-75 mb-4">
+                    Отправлю подробную программу и все детали после получения заявки
+                </p>
+                
+                <div class="flex justify-center items-center space-x-2 text-sm opacity-75">
+                    <span>Контакт организатора:</span>
+                    <a href="https://t.me/d1q1da" class="underline hover:no-underline">@d1q1da</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="mb-4">
+                <span class="text-2xl font-bold gradient-text">CAMP48</span>
+            </div>
+            <p class="text-gray-400">Велоприключения для души: Реальное общение и развитие</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Countdown Timer
+        function updateCountdown() {
+            const targetDate = new Date('2024-10-10T07:00:00+03:00').getTime();
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown').innerHTML = 
+                    `<div class="grid grid-cols-4 gap-2 text-center">
+                        <div><div class="text-2xl font-bold">${days}</div><div class="text-xs">ДНЕЙ</div></div>
+                        <div><div class="text-2xl font-bold">${hours}</div><div class="text-xs">ЧАСОВ</div></div>
+                        <div><div class="text-2xl font-bold">${minutes}</div><div class="text-xs">МИНУТ</div></div>
+                        <div><div class="text-2xl font-bold">${seconds}</div><div class="text-xs">СЕКУНД</div></div>
+                    </div>`;
+            } else {
+                document.getElementById('countdown').innerHTML = 'МЕРОПРИЯТИЕ НАЧАЛОСЬ!';
+            }
+        }
+
+        // Update countdown every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Floating badge animation
+        let isFloatingBadgeVisible = true;
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const floatingBadge = document.getElementById('floating-badge');
+            
+            if (scrolled > 100 && isFloatingBadgeVisible) {
+                floatingBadge.style.transform = 'translateY(0)';
+            } else if (scrolled <= 100) {
+                floatingBadge.style.transform = 'translateY(-100px)';
+            }
+        });
+    </script>
+</body>
+</html>
+
+```
