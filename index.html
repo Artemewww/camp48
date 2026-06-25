@@ -1,619 +1,842 @@
-
 <!DOCTYPE html>
-<html lang="ru" class="scroll-smooth">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAMP48: Велоприключение на Нарочи - Мощный IRL-Перезагруз</title>
-     <meta property="og:image" content="https://camp48.vercel.app/naroch.png" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#5D5CDE',
-                        'primary-dark': '#4A49C9'
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'bounce-gentle': 'bounce 2s infinite',
-                        'fade-in': 'fadeIn 1s ease-out',
-                        'slide-up': 'slideUp 0.8s ease-out'
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(40px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .hero-bg {
-            background: linear-gradient(135deg, rgba(93, 92, 222, 0.8), rgba(74, 73, 201, 0.9)), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="bikes" patternUnits="userSpaceOnUse" width="200" height="200"><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><circle cx="150" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><path d="M50 50 L150 50 L120 20 M80 50 L120 20 L120 50" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/></pattern></defs><rect width="100%" height="100%" fill="url(%23bikes)"/></svg>') center/cover;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #5D5CDE, #8B7CF8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .floating-element {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .timer-glow {
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
-        }
-    </style>
-</head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAMP48 — Велоприключение на Нарочи</title>
+  <meta property="og:title" content="CAMP48 — 48 часов настоящей жизни" />
+  <meta property="og:description" content="Велоприключение на Нарочи. Живые связи, дикая природа, перезагрузка." />
+  <meta property="og:image" content="https://camp48.vercel.app/naroch.png" />
 
-    <!-- Floating Urgency Badge -->
-    <div id="floating-badge" class="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded-full shadow-lg animate-pulse-slow">
-        <div class="flex items-center space-x-2">
-            <span class="w-2 h-2 bg-white rounded-full animate-ping"></span>
-            <span class="text-sm font-bold">ОСТАЛОСЬ 1 МЕСТО!</span>
-        </div>
-    </div>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Space+Grotesk:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
-    <!-- Hero Section -->
-    <section class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary-dark/90"></div>
-        <div class="container mx-auto px-4 relative z-10 text-center text-white animate-fade-in">
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-                МОЩНЫЙ ПЕРЕЗАГРУЗ!<br>
-                <span class="gradient-text text-yellow-300">МОЩНЫЙ ПЕРЕЗАГРУЗ</span><br>
-                НА НАРОЧИ
-            </h1>
-            
-            <p class="text-xl md:text-2xl mb-8 max-w-4xl mx-auto opacity-90">
-                48 часов, чтобы преодолеть изоляцию, сформировать глубокие офлайн-связи 
-                и найти Волю для новых достижений
-            </p>
-            
-            <!-- Icons -->
-            <div class="flex justify-center space-x-8 mb-8">
-                <div class="text-center floating-element">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-2 mx-auto">
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z"/>
-                        </svg>
-                    </div>
-                    <span class="text-sm">Велосипед</span>
-                </div>
-                <div class="text-center floating-element" style="animation-delay: -1s;">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-2 mx-auto">
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L3 8v12h6v-7h6v7h6V8l-9-6z"/>
-                        </svg>
-                    </div>
-                    <span class="text-sm">Палатка</span>
-                </div>
-                <div class="text-center floating-element" style="animation-delay: -2s;">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-2 mx-auto">
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9c.83 0 1.5-.67 1.5-1.5S7.83 8 7 8s-1.5.67-1.5 1.5S6.17 11 7 11zm10 0c.83 0 1.5-.67 1.5-1.5S17.83 8 17 8s-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm-5 4.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
-                        </svg>
-                    </div>
-                    <span class="text-sm">Костер</span>
-                </div>
-            </div>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        <!-- Таймер обратного отсчёта -->
-<div id="timer" style="font-family: monospace; font-size: 24px;"></div>
-
-<script>
-  // Устанавливаем время отсчёта: 2 дня в миллисекундах
-  const countdownTime = 2 * 24 * 60 * 60 * 1000;
-
-  // Запоминаем момент запуска таймера
-  const startTime = new Date().getTime();
-
-  function updateTimer() {
-    const now = new Date().getTime();
-    const elapsed = now - startTime;
-    const timeLeft = countdownTime - elapsed;
-
-    if (timeLeft <= 0) {
-      document.getElementById('timer').textContent = '00 д 00:00:00';
-      clearInterval(timerInterval);
-      return;
+    :root {
+      --black: #090909;
+      --white: #f0ede8;
+      --dim: rgba(240,237,232,0.38);
+      --dimmer: rgba(240,237,232,0.15);
+      --accent: #c8b98a;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Space Grotesk', sans-serif;
+      --mono: 'Space Mono', monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    // Расчёт дней, часов, минут, секунд
-    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    html { scroll-behavior: smooth; }
 
-    // Форматирование с ведущими нулями
-    const formatNumber = num => num < 10 ? '0' + num : num;
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
 
-    // Вывод
-    document.getElementById('timer').textContent =
-      formatNumber(days) + ' д ' +
-      formatNumber(hours) + ':' +
-      formatNumber(minutes) + ':' +
-      formatNumber(seconds);
-  }
+    #cursor {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      width: 8px; height: 8px;
+      background: var(--white);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      transition: width .25s var(--ease), height .25s var(--ease), background .25s;
+      mix-blend-mode: difference;
+    }
+    #cursor.large { width: 56px; height: 56px; }
 
-  updateTimer(); // Обновить сразу при загрузке
-  const timerInterval = setInterval(updateTimer, 1000);
-</script>
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 1000;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: .5;
+    }
 
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 48px;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-right { display: flex; align-items: center; gap: 40px; }
+    .nav-link {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color .3s;
+    }
+    .nav-link:hover { color: var(--white); }
+    .nav-cta {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--white);
+      border: none;
+      padding: 10px 20px;
+      cursor: none;
+      text-decoration: none;
+      transition: background .3s, color .3s;
+    }
+    .nav-cta:hover { background: var(--accent); }
 
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 700px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: 1fr auto;
+      gap: 0 24px;
+      padding: 0 48px 56px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('naroch.png') center/cover no-repeat;
+      transform: scale(1.04);
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(9,9,9,.25) 0%, rgba(9,9,9,.1) 40%, rgba(9,9,9,.72) 80%, rgba(9,9,9,1) 100%);
+    }
+    .hero-tag {
+      position: relative; z-index: 2;
+      grid-column: 1 / 4; grid-row: 1;
+      align-self: end;
+      padding-bottom: 20px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--dim);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .hero-title-wrap {
+      position: relative; z-index: 2;
+      grid-column: 1 / 13; grid-row: 2;
+      display: flex; flex-direction: column;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(56px, 9vw, 136px);
+      line-height: .92;
+      letter-spacing: -.01em;
+    }
+    h1 em { font-style: italic; color: var(--white); }
+    .hero-bottom {
+      position: relative; z-index: 2;
+      grid-column: 1 / 13; grid-row: 3;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding-top: 36px;
+      border-top: 1px solid var(--dimmer);
+      margin-top: 28px;
+    }
+    .hero-desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--dim);
+      max-width: 360px;
+      letter-spacing: .02em;
+    }
+    .hero-stats { display: flex; gap: 48px; align-items: flex-end; }
+    .stat { text-align: right; }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 52px;
+      line-height: 1;
+      font-weight: 300;
+      display: block;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 8px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-top: 4px;
+      display: block;
+    }
+    .scroll-hint {
+      writing-mode: vertical-rl;
+      font-family: var(--mono);
+      font-size: 8px;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--dimmer);
+      align-self: flex-end;
+      padding-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .scroll-hint::before {
+      content: '';
+      width: 1px; height: 48px;
+      background: var(--dimmer);
+      display: block;
+    }
 
+    .ticker-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--dimmer);
+      border-bottom: 1px solid var(--dimmer);
+      padding: 14px 0;
+    }
+    .ticker {
+      display: flex;
+      width: max-content;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-item {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--dim);
+      padding: 0 64px;
+      white-space: nowrap;
+    }
+    .ticker-item span { color: var(--accent); margin-right: 8px; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+    section { position: relative; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 48px; }
 
+    .manifesto {
+      padding: 140px 0 120px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+    }
+    .manifesto-label { grid-column: 1 / 4; }
+    .manifesto-body { grid-column: 4 / 13; }
+    .manifesto-body p {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.6vw, 52px);
+      font-weight: 300;
+      line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+    .manifesto-body p em { font-style: italic; color: var(--accent); }
 
-            <!-- Primary CTA -->
-            <a href="https://t.me/d1q1da" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl px-8 py-4 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 animate-bounce-gentle">
-                Я ЕДУ! ПОЛУЧИТЬ ПОДРОБНУЮ ПРОГРАММУ В TELEGRAM
-            </a>
+    .problems { padding: 80px 0 120px; border-top: 1px solid var(--dimmer); }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 80px;
+    }
+    .section-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 72px);
+      font-weight: 300;
+      font-style: italic;
+    }
+    .section-num {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .35em;
+      color: var(--dimmer);
+    }
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--dimmer);
+    }
+    .problem-card {
+      background: var(--black);
+      padding: 52px 40px;
+      display: flex; flex-direction: column;
+      transition: background .4s;
+    }
+    .problem-card:hover { background: #0f0f0f; }
+    .problem-num {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .35em;
+      color: var(--dimmer);
+      margin-bottom: 48px;
+      display: block;
+    }
+    .problem-icon { width: 28px; height: 28px; margin-bottom: 32px; opacity: .6; }
+    .problem-card h3 {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    .problem-card p { font-size: 13px; line-height: 1.75; color: var(--dim); }
+
+    .program { padding: 120px 0; border-top: 1px solid var(--dimmer); }
+    .program-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--dimmer);
+      margin-top: 80px;
+    }
+    .program-block { background: var(--black); padding: 64px 52px; }
+    .program-block.accent-block {
+      background: #0d0d0d;
+      grid-column: 1 / 3;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .day-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+      display: block;
+    }
+    .program-block h3 {
+      font-family: var(--serif);
+      font-size: 40px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .program-list { list-style: none; }
+    .program-list li {
+      font-size: 13px;
+      color: var(--dim);
+      line-height: 1.6;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--dimmer);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .program-list li::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .big-quote {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.2;
+      color: var(--white);
+    }
+    .big-quote em { color: var(--accent); font-style: normal; }
+
+    .ticket-section {
+      padding: 120px 0;
+      border-top: 1px solid var(--dimmer);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+    }
+    .ticket-left {
+      grid-column: 1 / 7;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .ticket-right { grid-column: 7 / 13; }
+    .ticket {
+      border: 1px solid var(--dimmer);
+      padding: 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ticket::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .ticket-title {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 40px;
+      display: block;
+    }
+    .ticket-detail {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--dimmer);
+    }
+    .ticket-detail-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+    .ticket-detail-value { font-family: var(--serif); font-size: 20px; font-weight: 300; }
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 48px 0;
+    }
+    .count-unit {
+      text-align: center;
+      padding: 24px 0;
+      border: 1px solid var(--dimmer);
+    }
+    .count-num {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1;
+      display: block;
+    }
+    .count-label {
+      font-family: var(--mono);
+      font-size: 7px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-top: 8px;
+      display: block;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      padding: 20px 32px;
+      text-decoration: none;
+      cursor: none;
+      transition: background .3s, color .3s;
+      margin-top: 8px;
+    }
+    .cta-btn:hover { background: var(--accent); }
+    .cta-arrow { font-size: 18px; transition: transform .3s var(--ease); }
+    .cta-btn:hover .cta-arrow { transform: translateX(6px); }
+    .spots-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 8px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 20px;
+    }
+    .spots-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.8s ease infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+    .includes { padding: 120px 0; border-top: 1px solid var(--dimmer); }
+    .includes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      margin-top: 80px;
+    }
+    .include-item { display: flex; flex-direction: column; gap: 20px; }
+    .include-icon-wrap {
+      width: 48px; height: 48px;
+      border: 1px solid var(--dimmer);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .include-icon-wrap svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+    .include-item h4 { font-family: var(--serif); font-size: 22px; font-weight: 300; line-height: 1.1; }
+    .include-item p { font-size: 12px; color: var(--dim); line-height: 1.75; }
+
+    .photo-strip { padding: 80px 0 0; border-top: 1px solid var(--dimmer); overflow: hidden; }
+    .photo-strip-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      height: 480px;
+      gap: 1px;
+      background: var(--dimmer);
+    }
+    .photo-cell { position: relative; overflow: hidden; }
+    .photo-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%) brightness(.85);
+      transition: filter .6s, transform .6s var(--ease);
+    }
+    .photo-cell:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.04); }
+    .photo-cell-label {
+      position: absolute;
+      bottom: 20px; left: 20px;
+      font-family: var(--mono);
+      font-size: 8px;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    footer {
+      border-top: 1px solid var(--dimmer);
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo { font-family: var(--mono); font-size: 11px; letter-spacing: .4em; text-transform: uppercase; }
+    .footer-links { display: flex; gap: 40px; }
+    .footer-link {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color .3s;
+    }
+    .footer-link:hover { color: var(--white); }
+    .footer-copy { font-family: var(--mono); font-size: 8px; letter-spacing: .3em; color: var(--dimmer); }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .12s; }
+    .reveal-delay-2 { transition-delay: .24s; }
+    .reveal-delay-3 { transition-delay: .36s; }
+    .reveal-delay-4 { transition-delay: .48s; }
+
+    @media (max-width: 1024px) {
+      nav { padding: 20px 24px; }
+      .hero { padding: 0 24px 48px; }
+      .container { padding: 0 24px; }
+      .manifesto { grid-template-columns: 1fr; }
+      .manifesto-label, .manifesto-body { grid-column: 1; }
+      .problems-grid { grid-template-columns: 1fr; }
+      .program-grid { grid-template-columns: 1fr; }
+      .program-block.accent-block { grid-column: 1; grid-template-columns: 1fr; gap: 40px; }
+      .ticket-section { grid-template-columns: 1fr; }
+      .ticket-left, .ticket-right { grid-column: 1; }
+      .includes-grid { grid-template-columns: 1fr 1fr; }
+      .photo-strip-inner { grid-template-columns: 1fr; height: auto; }
+      .photo-cell { height: 280px; }
+      footer { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+      .nav-right .nav-link { display: none; }
+      h1 { font-size: clamp(44px, 12vw, 80px); }
+      .countdown { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .hero-stats { gap: 24px; }
+      .stat-num { font-size: 36px; }
+      .includes-grid { grid-template-columns: 1fr; }
+      .hero-bottom { flex-direction: column; gap: 24px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <nav>
+    <a href="#" class="nav-logo">CAMP48</a>
+    <div class="nav-right">
+      <a href="#program" class="nav-link">Программа</a>
+      <a href="#includes" class="nav-link">Включено</a>
+      <a href="#ticket" class="nav-link">Участие</a>
+      <a href="https://t.me/d1q1da" target="_blank" class="nav-cta">Записаться</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-tag">
+      <span class="tag">N53°48' / E27°12'</span>
+      <span class="tag">Нарочь, Беларусь</span>
+    </div>
+    <div class="hero-title-wrap" style="grid-column:1/13; grid-row:2;">
+      <span class="hero-eyebrow">Велоприключение — Июль 2026</span>
+      <h1>48 часов<br><em>настоящей</em><br>жизни</h1>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-desc">Два дня на великах, у воды и у костра. Без дедлайнов, без уведомлений, без лишних людей — только те, кто решил выбрать живое.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">48</span><span class="stat-label">Часов</span></div>
+        <div class="stat"><span class="stat-num">1</span><span class="stat-label">Место осталось</span></div>
+        <div class="stat"><span class="stat-num">0</span><span class="stat-label">Алкоголя</span></div>
+      </div>
+      <div class="scroll-hint">Scroll</div>
+    </div>
+  </header>
+
+  <div class="ticker-wrap">
+    <div class="ticker" aria-hidden="true">
+      <span class="ticker-item"><span>●</span> НАРОЧЬ 2026</span>
+      <span class="ticker-item"><span>●</span> ВЕЛОСИПЕД</span>
+      <span class="ticker-item"><span>●</span> ЖИВЫЕ СВЯЗИ</span>
+      <span class="ticker-item"><span>●</span> ПРИРОДА</span>
+      <span class="ticker-item"><span>●</span> ПЕРЕЗАГРУЗКА</span>
+      <span class="ticker-item"><span>●</span> CAMP48</span>
+      <span class="ticker-item"><span>●</span> НАРОЧЬ 2026</span>
+      <span class="ticker-item"><span>●</span> ВЕЛОСИПЕД</span>
+      <span class="ticker-item"><span>●</span> ЖИВЫЕ СВЯЗИ</span>
+      <span class="ticker-item"><span>●</span> ПРИРОДА</span>
+      <span class="ticker-item"><span>●</span> ПЕРЕЗАГРУЗКА</span>
+      <span class="ticker-item"><span>●</span> CAMP48</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="manifesto reveal">
+      <div class="manifesto-label"><span class="tag" style="margin-top:12px">О лагере</span></div>
+      <div class="manifesto-body">
+        <p>Мы живём в эпоху бесконечного контента, но <em>голодаем по присутствию.</em> CAMP48 — это 48 часов, которые возвращают телу усталость, а разуму — тишину. Велосипед, озеро, костёр и люди, которым тоже надоело притворяться.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="problems">
+      <div class="section-header reveal">
+        <h2>Ты здесь,<br>если узнаёшь себя</h2>
+        <span class="section-num">01 / ДИАГНОСТИКА</span>
+      </div>
+      <div class="problems-grid">
+        <div class="problem-card reveal reveal-delay-1">
+          <span class="problem-num">01</span>
+          <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <h3>Цифровая усталость</h3>
+          <p>7+ часов в день за экраном. Информация летит, но ничего не оседает. Ты потребляешь, но не живёшь.</p>
         </div>
+        <div class="problem-card reveal reveal-delay-2">
+          <span class="problem-num">02</span>
+          <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <h3>Поверхностные связи</h3>
+          <p>Тысячи подписчиков, но позвонить некому. Нужны живые люди, а не аватарки в чатах.</p>
+        </div>
+        <div class="problem-card reveal reveal-delay-3">
+          <span class="problem-num">03</span>
+          <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+          <h3>Потеря вектора</h3>
+          <p>Хочется роста, но нет сил. Выбираешь развитие, но среда тянет вниз. Пора сменить среду.</p>
+        </div>
+      </div>
     </section>
+  </div>
 
-    <!-- Problems Section -->
-    <section class="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16 animate-slide-up">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-                    ХВАТИТ ЖИТЬ ЗА ЭКРАНОМ!
-                </h2>
-                <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                    ВАШ ОРГАНИЗМ ТРЕБУЕТ ПЕРЕЗАГРУЗКИ, ЕСЛИ ВЫ...
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                <!-- Problem 1 -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <div class="text-center mb-6">
-                        <div class="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-10 h-10 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
-                                <path d="M16 6l6-6m0 6L16 0" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-4">Цифровая усталость</h3>
-                        <p class="text-gray-600 dark:text-gray-300">
-                            Проводите более 7 часов в день за экранами и чувствуете информационное переутомление
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Problem 2 -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <div class="text-center mb-6">
-                        <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-10 h-10 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-1.35.34-2.62.94-3.73l10.79 10.79C14.62 19.66 13.35 20 12 20zM20 12c0 1.35-.34 2.62-.94 3.73L8.27 4.94C9.38 4.34 10.65 4 12 4c4.41 0 8 3.59 8 8z"/>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-4">Изоляция</h3>
-                        <p class="text-gray-600 dark:text-gray-300">
-                            Ищете настоящих друзей и глубокие офлайн-связи, но сталкиваетесь с социальной тревожностью
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Problem 3 -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <div class="text-center mb-6">
-                        <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-10 h-10 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                <path d="M8 15l4-4 4 4" stroke="currentColor" stroke-width="2" fill="none"/>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-4">Деградация</h3>
-                        <p class="text-gray-600 dark:text-gray-300">
-                            Выбираете развитие, а не деградацию, и ищете сообщество, где нет алкоголя
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Solution -->
-            <div class="bg-primary text-white rounded-3xl p-10 text-center">
-                <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span class="text-3xl font-bold">🔥</span>
-                </div>
-                <h3 class="text-2xl md:text-3xl font-bold mb-4">РЕШЕНИЕ — CAMP48</h3>
-                <p class="text-xl opacity-90 max-w-3xl mx-auto">
-                    Это приключение для души, где мы обретаем целостное благополучие (ментальное, социальное, физическое) 
-                    и раскрываем свой потенциал через живое общение на природе
-                </p>
-            </div>
+  <div class="container" id="program">
+    <section class="program">
+      <div class="section-header reveal">
+        <h2>Программа</h2>
+        <span class="section-num">02 / 48 ЧАСОВ</span>
+      </div>
+      <div class="program-grid">
+        <div class="program-block reveal">
+          <span class="day-label">День первый</span>
+          <h3>Прибытие и первые километры</h3>
+          <ul class="program-list">
+            <li>Сбор и знакомство</li>
+            <li>Первый веломаршрут — 30–40 км вдоль Нарочи</li>
+            <li>Купание, обед на природе</li>
+            <li>Вечерний костёр и живой разговор</li>
+            <li>Ночь в палатках под звёздами</li>
+          </ul>
         </div>
+        <div class="program-block reveal reveal-delay-1">
+          <span class="day-label">День второй</span>
+          <h3>Финальный рывок и отъезд</h3>
+          <ul class="program-list">
+            <li>Утренняя зарядка у воды</li>
+            <li>Второй маршрут — леса и поля вокруг озера</li>
+            <li>Совместный завтрак и обмен инсайтами</li>
+            <li>Время в одиночестве для рефлексии</li>
+            <li>Прощание — уже другими людьми</li>
+          </ul>
+        </div>
+        <div class="program-block accent-block reveal">
+          <div class="big-quote">«48 часов достаточно, чтобы понять: <em>живое</em> было всё это время доступно.»</div>
+          <div>
+            <span class="day-label">Формат</span>
+            <ul class="program-list">
+              <li>Малая группа — до 12 человек</li>
+              <li>Без алкоголя и деструктива</li>
+              <li>Оффлайн-режим приветствуется</li>
+              <li>Велосипед предоставляется или свой</li>
+              <li>Уровень: подходит любой</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
+  </div>
 
-    <!-- Activities Section -->
-    <section class="py-20 bg-white dark:bg-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-                    ВАШИ 48 ЧАСОВ НАРОЧАНСКОГО ПЕРЕЗАГРУЗА
-                </h2>
-                <p class="text-xl text-gray-600 dark:text-gray-300">ПЛАН ДЕЙСТВИЯ</p>
-            </div>
-
-            <!-- Values -->
-            <div class="grid md:grid-cols-2 gap-8 mb-16">
-                <div class="bg-gradient-to-r from-primary to-primary-dark p-8 rounded-2xl text-white text-center">
-                    <div class="text-6xl mb-4">💪</div>
-                    <h3 class="text-2xl font-bold mb-4">ВОЛЯ</h3>
-                    <p class="opacity-90">Через физическую нагрузку</p>
-                </div>
-                <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-8 rounded-2xl text-white text-center">
-                    <div class="text-6xl mb-4">😊</div>
-                    <h3 class="text-2xl font-bold mb-4">СЧАСТЬЕ</h3>
-                    <p class="opacity-90">Через природу и общение</p>
-                </div>
-            </div>
-
-            <!-- Activities -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-                <div class="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-xl">
-                    <div class="text-4xl mb-4 text-center">🚴‍♂️</div>
-                    <h4 class="font-bold mb-2 text-center">Велоприключение</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-                        Прокатимся по живописным тропам Нарочи (маршрут 50 км)
-                    </p>
-                </div>
-                <div class="bg-gradient-to-b from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-xl">
-                    <div class="text-4xl mb-4 text-center">🏕️</div>
-                    <h4 class="font-bold mb-2 text-center">Погружение в природу</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-                        Двухдневный кемпинг с палатками у воды
-                    </p>
-                </div>
-                <div class="bg-gradient-to-b from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 p-6 rounded-xl">
-                    <div class="text-4xl mb-4 text-center">🔥</div>
-                    <h4 class="font-bold mb-2 text-center">Живое общение</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-                        Совместное приготовление еды, общение у костра
-                    </p>
-                </div>
-                <div class="bg-gradient-to-b from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-xl">
-                    <div class="text-4xl mb-4 text-center">🗺️</div>
-                    <h4 class="font-bold mb-2 text-center">Экскурсии</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-                        Посещение популярных мест и красот Нарочанского края
-                    </p>
-                </div>
-            </div>
-
-            <!-- Special Block -->
-            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 p-8 rounded-2xl border-l-4 border-teal-500">
-                <div class="flex items-start space-x-4">
-                    <div class="flex space-x-2 text-2xl">
-                        <span>❄️</span>
-                        <span>🧘‍♂️</span>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold mb-2 text-teal-800 dark:text-teal-300">Для Своих</h4>
-                        <p class="text-teal-700 dark:text-teal-200">
-                            Особенно приветствуем тех, кто близок к дыхательным практикам, закалке и здоровому образу жизни! 
-                            Здесь вас поймут и поддержат.
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <div class="container" id="ticket">
+    <section class="ticket-section">
+      <div class="ticket-left reveal">
+        <div>
+          <span class="tag" style="margin-bottom:24px;display:block">Осталось мест</span>
+          <div style="font-family:var(--serif);font-size:clamp(80px,14vw,160px);line-height:1;font-weight:300;color:var(--accent)">1</div>
+          <p style="font-size:13px;color:var(--dim);margin-top:20px;line-height:1.75;max-width:340px">Лагерь намеренно малочисленный. Когда места кончатся — набор закроется до следующего сезона.</p>
         </div>
+        <div class="countdown">
+          <div class="count-unit"><span class="count-num" id="cd-days">00</span><span class="count-label">Дней</span></div>
+          <div class="count-unit"><span class="count-num" id="cd-hours">00</span><span class="count-label">Часов</span></div>
+          <div class="count-unit"><span class="count-num" id="cd-min">00</span><span class="count-label">Минут</span></div>
+          <div class="count-unit"><span class="count-num" id="cd-sec">00</span><span class="count-label">Секунд</span></div>
+        </div>
+      </div>
+      <div class="ticket-right reveal reveal-delay-2">
+        <div class="ticket">
+          <span class="ticket-title">Билет на CAMP48</span>
+          <div class="ticket-detail"><span class="ticket-detail-label">Дата</span><span class="ticket-detail-value">Июль 2026</span></div>
+          <div class="ticket-detail"><span class="ticket-detail-label">Место</span><span class="ticket-detail-value">Нарочь, Беларусь</span></div>
+          <div class="ticket-detail"><span class="ticket-detail-label">Длительность</span><span class="ticket-detail-value">48 часов</span></div>
+          <div class="ticket-detail"><span class="ticket-detail-label">Формат</span><span class="ticket-detail-value">Велокемп</span></div>
+          <div class="ticket-detail" style="border-bottom:none"><span class="ticket-detail-label">Группа</span><span class="ticket-detail-value">до 12 человек</span></div>
+          <a href="https://t.me/d1q1da" target="_blank" class="cta-btn"><span>Забронировать место</span><span class="cta-arrow">→</span></a>
+          <div class="spots-badge"><span class="spots-dot"></span>Набор открыт — 1 место свободно</div>
+        </div>
+      </div>
     </section>
+  </div>
 
-    <!-- Map & Logistics Section -->
-    <section class="py-20 bg-gray-50 dark:bg-gray-800">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-                    ГДЕ МЫ ВСТРЕЧАЕМСЯ И КУДА ЕДЕМ?
-                </h2>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- Map -->
-                <div class="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-lg">
-                    <h3 class="text-2xl font-bold mb-6 text-center">Нарочанский край</h3>
-                    <div class="relative">
-                        <a href="https://yandex.by/maps/-/CLFvARli" target="_blank" class="block bg-gradient-to-br from-blue-100 to-green-100 dark:from-blue-900/30 dark:to-green-900/30 h-80 rounded-xl flex items-center justify-center relative overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                            <div class="text-center z-10">
-                                <div class="text-6xl mb-4">🗺️</div>
-                                <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">Интерактивная карта Нарочи</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Природа, чистый воздух и живописные места</p>
-                                <div class="mt-4 bg-primary text-white px-4 py-2 rounded-full text-sm hover:bg-primary-dark transition-colors">
-                                    Открыть карту →
-                                </div>
-                            </div>
-                            <!-- Map markers -->
-                            <div class="absolute top-4 left-8 bg-red-500 w-4 h-4 rounded-full animate-ping"></div>
-                            <div class="absolute bottom-8 right-12 bg-blue-500 w-4 h-4 rounded-full animate-ping" style="animation-delay: -1s;"></div>
-                            <div class="absolute top-1/2 left-1/4 bg-green-500 w-4 h-4 rounded-full animate-ping" style="animation-delay: -2s;"></div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Logistics Info -->
-                <div class="space-y-8">
-                    <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg">
-                        <div class="flex items-center space-x-4 mb-4">
-                            <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
-                                <span class="text-2xl">📍</span>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-bold">Точка Сбора</h4>
-                                <p class="text-gray-600 dark:text-gray-300">Новая Боровая, Минск</p>
-                            </div>
-                        </div>
-                        <div class="bg-red-500 text-white p-4 rounded-lg text-center">
-                            <p class="font-bold">Время: 07:00, 11 ОКТЯБРЯ</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg">
-                        <div class="flex items-center space-x-4 mb-4">
-                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                                <span class="text-2xl">🚗</span>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-bold">Транспорт</h4>
-                                <p class="text-gray-600 dark:text-gray-300">Логистика поездки</p>
-                            </div>
-                        </div>
-                        <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded">
-                            <p class="text-sm">
-                                Выезжаю на машине с багажником (всего 2 места для велосипедов, одно свободно). 
-                                Кооперируемся, чтобы ехать большой компанией, или участники добираются своим ходом.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="container" id="includes">
+    <section class="includes">
+      <div class="section-header reveal">
+        <h2>Что включено</h2>
+        <span class="section-num">03 / КОМПЛЕКТ</span>
+      </div>
+      <div class="includes-grid">
+        <div class="include-item reveal reveal-delay-1">
+          <div class="include-icon-wrap"><svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><circle cx="12" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M12 17h7M8.21 13H5"/></svg></div>
+          <h4>Велосипед</h4>
+          <p>Аренда входит в стоимость — или привезите свой. Маршруты для любого уровня.</p>
         </div>
+        <div class="include-item reveal reveal-delay-2">
+          <div class="include-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 17l9-14 9 14"/><path d="M3 17h18"/><path d="M12 3v4"/></svg></div>
+          <h4>Палатка и снаряжение</h4>
+          <p>Место на кемпинге, палатка, спальник — всё необходимое для ночи под открытым небом.</p>
+        </div>
+        <div class="include-item reveal reveal-delay-3">
+          <div class="include-icon-wrap"><svg viewBox="0 0 24 24"><path d="M8 2h8l1 6H7L8 2z"/><path d="M7 8c0 5 1 9 5 12 4-3 5-7 5-12"/><path d="M5 14h14"/></svg></div>
+          <h4>Питание</h4>
+          <p>Все приёмы пищи в течение 48 часов. Еда у костра, утренний кофе, перекусы в дороге.</p>
+        </div>
+        <div class="include-item reveal reveal-delay-4">
+          <div class="include-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+          <h4>Навигация и маршрут</h4>
+          <p>Готовые треки, гид, все точки остановок. Вы просто крутите педали — остальное продумано.</p>
+        </div>
+      </div>
     </section>
+  </div>
 
-    <!-- Investment Section -->
-    <section class="py-20 bg-white dark:bg-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-                    ИНВЕСТИЦИЯ В ВАШЕ ЦЕЛОСТНОЕ БЛАГОПОЛУЧИЕ
-                </h2>
-            </div>
-
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Principle -->
-                <div class="bg-gradient-to-b from-primary/10 to-primary/20 dark:from-primary/20 dark:to-primary/30 p-8 rounded-2xl">
-                    <div class="text-center mb-6">
-                        <span class="text-5xl">🤝</span>
-                        <h3 class="text-xl font-bold mt-4">Душевный подход</h3>
-                    </div>
-                    <p class="text-gray-700 dark:text-gray-300">
-                        Организую это приключение для души, а не ради прибыли. 
-                        Это некоммерческая инициатива для единомышленников.
-                    </p>
-                </div>
-
-                <!-- Financial Terms -->
-                <div class="bg-gradient-to-b from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-8 rounded-2xl">
-                    <div class="text-center mb-6">
-                        <span class="text-5xl">💰</span>
-                        <h3 class="text-xl font-bold mt-4">Финансовые условия</h3>
-                    </div>
-                    <p class="text-gray-700 dark:text-gray-300">
-                        Все расходы (бензин, общая еда, аренда мест) честно делим пополам. 
-                        Вы вносите личный вклад (питание, действие, материя).
-                    </p>
-                </div>
-
-                <!-- Transparency -->
-                <div class="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-8 rounded-2xl">
-                    <div class="text-center mb-6">
-                        <span class="text-5xl">✅</span>
-                        <h3 class="text-xl font-bold mt-4">Прозрачность</h3>
-                    </div>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-green-500">✓</span>
-                            <span>Организация маршрута</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-green-500">✓</span>
-                            <span>Атмосфера без алкоголя</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-red-500">✗</span>
-                            <span>Личное снаряжение</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Equipment List -->
-            <div class="mt-16 bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl">
-                <h3 class="text-2xl font-bold mb-6 text-center">Необходимое снаряжение</h3>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
-                        <span class="text-2xl">🚴‍♂️</span>
-                        <span>Велосипед</span>
-                    </div>
-                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
-                        <span class="text-2xl">🏕️</span>
-                        <span>Палатка</span>
-                    </div>
-                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
-                        <span class="text-2xl">🛏️</span>
-                        <span>Спальный мешок</span>
-                    </div>
-                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
-                        <span class="text-2xl">🏃‍♂️</span>
-                        <span>Туристический коврик</span>
-                    </div>
-                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
-                        <span class="text-2xl">💊</span>
-                        <span>Минимальная аптечка</span>
-                    </div>
-                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
-                        <span class="text-2xl">🔦</span>
-                        <span>Фонарики</span>
-                    </div>
-                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
-                        <span class="text-2xl">🍽️</span>
-                        <span>Посуда</span>
-                    </div>
-                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-900 p-4 rounded-lg">
-                        <span class="text-2xl">🎒</span>
-                        <span>И еще...</span>
-                    </div>
-                </div>
-            </div>
+  <div class="photo-strip">
+    <div class="photo-strip-inner">
+      <div class="photo-cell">
+        <img src="naroch.png" alt="Нарочь" />
+        <span class="photo-cell-label">Озеро Нарочь</span>
+      </div>
+      <div class="photo-cell" style="background:#0f0f0f;display:flex;align-items:center;justify-content:center">
+        <div style="text-align:center;padding:40px">
+          <div style="font-family:var(--serif);font-size:72px;font-weight:300;line-height:1;color:var(--dimmer)">48</div>
+          <div style="font-family:var(--mono);font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--dimmer);margin-top:12px">Часов</div>
         </div>
-    </section>
-
-    <!-- Final CTA Section -->
-    <section class="py-20 bg-gradient-to-br from-primary to-primary-dark text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-10 left-10 text-6xl animate-pulse">🚴‍♂️</div>
-            <div class="absolute top-32 right-20 text-4xl animate-pulse" style="animation-delay: -1s;">🏕️</div>
-            <div class="absolute bottom-20 left-1/4 text-5xl animate-pulse" style="animation-delay: -2s;">🔥</div>
+      </div>
+      <div class="photo-cell" style="background:#111;display:flex;align-items:flex-end;padding:32px">
+        <div>
+          <span style="font-family:var(--mono);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent)">Ближайший старт</span>
+          <div style="font-family:var(--serif);font-size:36px;font-weight:300;margin-top:8px">Июль<br>2026</div>
         </div>
-        
-        <div class="container mx-auto px-4 relative z-10">
-            <!-- Testimonial -->
-            <div class="text-center mb-12">
-                <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl max-w-3xl mx-auto mb-8">
-                    <div class="text-6xl mb-4">👥</div>
-                    <blockquote class="text-xl italic mb-4">
-                        "Я был одинок и метался, а теперь у меня есть система, окружение и результат"
-                    </blockquote>
-                    <p class="opacity-90">
-                        Присоединяйтесь к сообществу единомышленников, где каждый найдет поддержку
-                    </p>
-                </div>
-            </div>
+      </div>
+    </div>
+  </div>
 
-            <!-- Final CTA -->
-            <div class="text-center">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">
-                    ГОТОВЫ К МОЩНОМУ ПЕРЕЗАРЯДУ?
-                </h2>
-                <p class="text-xl mb-8 opacity-90">
-                    Места ограничены, решение нужно принимать сейчас!
-                </p>
-                
-                <a href="https://t.me/d1q1da" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl px-10 py-5 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 mb-6">
-                    Я БУДУ! ОТМЕТИТЬСЯ И ПОЛУЧИТЬ ПРОГРАММУ
-                </a>
-                
-                <p class="text-sm opacity-75 mb-4">
-                    Отправлю подробную программу и все детали после получения заявки
-                </p>
-                
-                <div class="flex justify-center items-center space-x-2 text-sm opacity-75">
-                    <span>Контакт организатора:</span>
-                    <a href="https://t.me/d1q1da" class="underline hover:no-underline">@d1q1da</a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <footer>
+    <span class="footer-logo">CAMP48</span>
+    <div class="footer-links">
+      <a href="https://t.me/d1q1da" target="_blank" class="footer-link">Telegram</a>
+      <a href="#program" class="footer-link">Программа</a>
+      <a href="#ticket" class="footer-link">Участие</a>
+    </div>
+    <span class="footer-copy">© 2026 CAMP48</span>
+  </footer>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-8">
-        <div class="container mx-auto px-4 text-center">
-            <div class="mb-4">
-                <span class="text-2xl font-bold gradient-text">CAMP48</span>
-            </div>
-            <p class="text-gray-400">Велоприключения для души: Реальное общение и развитие</p>
-        </div>
-    </footer>
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .problem-card, .photo-cell').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('large'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('large'));
+    });
+    const heroBg = document.getElementById('heroBg');
+    window.addEventListener('scroll', () => {
+      heroBg.style.transform = `scale(1.04) translateY(${window.scrollY * 0.3}px)`;
+    }, { passive: true });
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+    const TARGET = new Date('2026-07-10T09:00:00');
+    function updateCountdown() {
+      const diff = TARGET - Date.now();
+      if (diff <= 0) { ['days','hours','min','sec'].forEach(id => document.getElementById('cd-' + id).textContent = '00'); return; }
+      const fmt = n => String(n).padStart(2, '0');
+      document.getElementById('cd-days').textContent = fmt(Math.floor(diff / 86400000));
+      document.getElementById('cd-hours').textContent = fmt(Math.floor((diff % 86400000) / 3600000));
+      document.getElementById('cd-min').textContent = fmt(Math.floor((diff % 3600000) / 60000));
+      document.getElementById('cd-sec').textContent = fmt(Math.floor((diff % 60000) / 1000));
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 
-    <script>
-        // Dark mode detection
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-        }
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-            if (event.matches) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        });
-
-        // Countdown Timer
-        function updateCountdown() {
-            const targetDate = new Date('2024-10-10T07:00:00+03:00').getTime();
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance > 0) {
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                document.getElementById('countdown').innerHTML = 
-                    `<div class="grid grid-cols-4 gap-2 text-center">
-                        <div><div class="text-2xl font-bold">${days}</div><div class="text-xs">ДНЕЙ</div></div>
-                        <div><div class="text-2xl font-bold">${hours}</div><div class="text-xs">ЧАСОВ</div></div>
-                        <div><div class="text-2xl font-bold">${minutes}</div><div class="text-xs">МИНУТ</div></div>
-                        <div><div class="text-2xl font-bold">${seconds}</div><div class="text-xs">СЕКУНД</div></div>
-                    </div>`;
-            } else {
-                document.getElementById('countdown').innerHTML = 'МЕРОПРИЯТИЕ НАЧАЛОСЬ!';
-            }
-        }
-
-        // Update countdown every second
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-
-        // Smooth scrolling for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Floating badge animation
-        let isFloatingBadgeVisible = true;
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const floatingBadge = document.getElementById('floating-badge');
-            
-            if (scrolled > 100 && isFloatingBadgeVisible) {
-                floatingBadge.style.transform = 'translateY(0)';
-            } else if (scrolled <= 100) {
-                floatingBadge.style.transform = 'translateY(-100px)';
-            }
-        });
-    </script>
 </body>
 </html>
-
-```
